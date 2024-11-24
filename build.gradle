@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'one.terenin'
+version = '1.0-SNAPSHOT'
+
+gradlePlugin {
+    plugins {
+        myPlugin {
+            id = 'one.terenin'
+            implementationClass = 'one.terenin.Plugin'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.6.1.202309021850-r'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
