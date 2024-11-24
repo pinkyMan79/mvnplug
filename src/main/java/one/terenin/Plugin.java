@@ -22,13 +22,15 @@ public class Plugin extends AbstractMojo {
     private String mainBranchName;
     @Parameter(property = "teamLabel", defaultValue = "AGONA")
     private String teamLabel;
+    @Parameter(property = "warnPhrases", defaultValue = "TODO,FIXME")
+    private String warnPhrases;
 
     @SneakyThrows
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         GitService service = new GitService(gitFolder);
         List<String> diffAsLines = service.getDiffAsLines(mainBranchName);
-        Set<String> notValidLines = diffAsLines.stream().filter(it -> LineValidator.checkLine(it, teamLabel))
+        Set<String> notValidLines = diffAsLines.stream().filter(it -> LineValidator.checkLine(it, teamLabel, warnPhrases))
                 .collect(Collectors.toSet());
         if (!notValidLines.isEmpty()) {
             String formattedSet = notValidLines.stream()
